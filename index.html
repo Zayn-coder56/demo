@@ -1,1 +1,815 @@
-print("Hello, World!")
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>3D Sign Up</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #080b16;
+            color: white;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            overflow: hidden;
+            perspective: 1200px;
+        }
+
+        /* =========================
+           BACKGROUND
+        ========================= */
+
+        .background {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(2px);
+            opacity: 0.7;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .orb1 {
+            width: 250px;
+            height: 250px;
+            background: #5b5cff;
+            top: -80px;
+            left: -80px;
+        }
+
+        .orb2 {
+            width: 200px;
+            height: 200px;
+            background: #ff3cac;
+            right: -50px;
+            bottom: -50px;
+            animation-delay: 2s;
+        }
+
+        .orb3 {
+            width: 150px;
+            height: 150px;
+            background: #00d4ff;
+            right: 20%;
+            top: 10%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-30px) rotate(20deg);
+            }
+        }
+
+        /* =========================
+           3D CUBES
+        ========================= */
+
+        .cube {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+
+            border: 1px solid rgba(255,255,255,0.2);
+
+            transform-style: preserve-3d;
+            animation: cubeRotate 10s linear infinite;
+        }
+
+        .cube1 {
+            top: 15%;
+            left: 10%;
+        }
+
+        .cube2 {
+            right: 12%;
+            top: 30%;
+            width: 40px;
+            height: 40px;
+            animation-duration: 7s;
+        }
+
+        .cube3 {
+            bottom: 15%;
+            left: 20%;
+            width: 45px;
+            height: 45px;
+            animation-duration: 12s;
+        }
+
+        @keyframes cubeRotate {
+            from {
+                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+            }
+
+            to {
+                transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+            }
+        }
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+            width: 100%;
+            max-width: 430px;
+            padding: 20px;
+        }
+
+        /* =========================
+           SIGNUP CARD
+        ========================= */
+
+        .card {
+            position: relative;
+
+            padding: 40px;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            border: 1px solid rgba(255,255,255,0.18);
+
+            border-radius: 25px;
+
+            backdrop-filter: blur(20px);
+
+            box-shadow:
+                0 30px 70px rgba(0,0,0,0.5),
+                inset 0 1px 1px rgba(255,255,255,0.15);
+
+            transform-style: preserve-3d;
+
+            transition: transform 0.15s ease;
+        }
+
+        /* glowing edge */
+
+        .card::before {
+            content: "";
+
+            position: absolute;
+            inset: -2px;
+
+            border-radius: 27px;
+
+            background: linear-gradient(
+                135deg,
+                rgba(91,92,255,0.8),
+                transparent,
+                rgba(255,60,172,0.7)
+            );
+
+            z-index: -1;
+
+            filter: blur(15px);
+
+            opacity: 0.5;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .logo {
+            width: 65px;
+            height: 65px;
+
+            margin: 0 auto 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 18px;
+
+            background: linear-gradient(
+                135deg,
+                #5b5cff,
+                #ff3cac
+            );
+
+            font-size: 28px;
+            font-weight: bold;
+
+            box-shadow:
+                0 15px 30px rgba(91,92,255,0.4);
+
+            transform: translateZ(40px);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 8px;
+
+            transform: translateZ(30px);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #aaaec0;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        /* =========================
+           INPUTS
+        ========================= */
+
+        .input-group {
+            margin-bottom: 18px;
+
+            transform: translateZ(25px);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 13px;
+            color: #c9ccda;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 14px 16px;
+
+            border-radius: 12px;
+
+            border: 1px solid rgba(255,255,255,0.15);
+
+            background: rgba(0,0,0,0.25);
+
+            color: white;
+
+            outline: none;
+
+            font-size: 14px;
+
+            transition: 0.3s;
+        }
+
+        input::placeholder {
+            color: #777b8c;
+        }
+
+        input:focus {
+            border-color: #6c6cff;
+
+            box-shadow:
+                0 0 20px rgba(91,92,255,0.25);
+        }
+
+        /* =========================
+           PASSWORD BUTTON
+        ========================= */
+
+        .show-password {
+            position: absolute;
+
+            right: 12px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+            background: transparent;
+
+            color: #999;
+
+            cursor: pointer;
+
+            font-size: 12px;
+        }
+
+        /* =========================
+           PASSWORD STRENGTH
+        ========================= */
+
+        .strength {
+            height: 4px;
+
+            margin-top: 8px;
+
+            background: rgba(255,255,255,0.1);
+
+            border-radius: 5px;
+
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+
+            transition: 0.3s;
+
+            border-radius: 5px;
+        }
+
+        .strength-text {
+            font-size: 11px;
+            margin-top: 5px;
+            color: #888;
+        }
+
+        /* =========================
+           TERMS
+        ========================= */
+
+        .terms {
+            display: flex;
+            gap: 8px;
+
+            align-items: flex-start;
+
+            margin: 20px 0;
+
+            font-size: 12px;
+            color: #999;
+        }
+
+        .terms input {
+            width: auto;
+            margin-top: 2px;
+        }
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .signup-btn {
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+            border-radius: 13px;
+
+            background: linear-gradient(
+                135deg,
+                #5b5cff,
+                #ff3cac
+            );
+
+            color: white;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 15px 30px rgba(91,92,255,0.3);
+
+            transition: 0.3s;
+
+            transform: translateZ(30px);
+        }
+
+        .signup-btn:hover {
+            transform: translateZ(30px) translateY(-3px);
+
+            box-shadow:
+                0 20px 40px rgba(91,92,255,0.45);
+        }
+
+        .signup-btn:active {
+            transform: translateZ(30px) translateY(0);
+        }
+
+        /* =========================
+           LOGIN
+        ========================= */
+
+        .login {
+            text-align: center;
+
+            margin-top: 22px;
+
+            color: #999;
+
+            font-size: 13px;
+        }
+
+        .login a {
+            color: #8c8cff;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
+        .message {
+            text-align: center;
+
+            margin-top: 15px;
+
+            font-size: 13px;
+
+            min-height: 18px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 500px) {
+
+            .card {
+                padding: 30px 22px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .cube {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background -->
+    <div class="background">
+
+        <div class="orb orb1"></div>
+        <div class="orb orb2"></div>
+        <div class="orb orb3"></div>
+
+        <div class="cube cube1"></div>
+        <div class="cube cube2"></div>
+        <div class="cube cube3"></div>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="card" id="card">
+
+            <div class="logo">
+                ✦
+            </div>
+
+            <h1>Create Account</h1>
+
+            <p class="subtitle">
+                Join us and start your journey
+            </p>
+
+
+            <form id="signupForm">
+
+                <!-- NAME -->
+
+                <div class="input-group">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="input-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="you@example.com"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="input-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Create a password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="show-password"
+                            id="showPassword"
+                        >
+                            Show
+                        </button>
+
+                    </div>
+
+
+                    <div class="strength">
+
+                        <div
+                            class="strength-bar"
+                            id="strengthBar"
+                        ></div>
+
+                    </div>
+
+                    <div
+                        class="strength-text"
+                        id="strengthText"
+                    >
+                        Password strength
+                    </div>
+
+                </div>
+
+
+                <!-- TERMS -->
+
+                <div class="terms">
+
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        required
+                    >
+
+                    <label for="terms">
+                        I agree to the Terms & Conditions
+                    </label>
+
+                </div>
+
+
+                <!-- BUTTON -->
+
+                <button
+                    type="submit"
+                    class="signup-btn"
+                >
+                    Create Account
+                </button>
+
+
+                <div
+                    class="message"
+                    id="message"
+                ></div>
+
+            </form>
+
+
+            <div class="login">
+
+                Already have an account?
+
+                <a href="#">
+                    Log in
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        /* =========================
+           3D CARD MOUSE EFFECT
+        ========================= */
+
+        const card = document.getElementById("card");
+
+        document.addEventListener("mousemove", function(event) {
+
+            const x = window.innerWidth / 2;
+            const y = window.innerHeight / 2;
+
+            const mouseX = event.clientX - x;
+            const mouseY = event.clientY - y;
+
+            const rotateY = mouseX / 30;
+            const rotateX = -mouseY / 30;
+
+            card.style.transform =
+                `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+        });
+
+
+        /* Reset card */
+
+        document.addEventListener("mouseleave", function() {
+
+            card.style.transform =
+                "rotateX(0deg) rotateY(0deg)";
+
+        });
+
+
+        /* =========================
+           SHOW / HIDE PASSWORD
+        ========================= */
+
+        const password =
+            document.getElementById("password");
+
+        const showPassword =
+            document.getElementById("showPassword");
+
+        showPassword.addEventListener("click", function() {
+
+            if (password.type === "password") {
+
+                password.type = "text";
+
+                showPassword.textContent = "Hide";
+
+            } else {
+
+                password.type = "password";
+
+                showPassword.textContent = "Show";
+
+            }
+
+        });
+
+
+        /* =========================
+           PASSWORD STRENGTH
+        ========================= */
+
+        const strengthBar =
+            document.getElementById("strengthBar");
+
+        const strengthText =
+            document.getElementById("strengthText");
+
+        password.addEventListener("input", function() {
+
+            const value = password.value;
+
+            let strength = 0;
+
+            if (value.length >= 8)
+                strength++;
+
+            if (/[A-Z]/.test(value))
+                strength++;
+
+            if (/[0-9]/.test(value))
+                strength++;
+
+            if (/[^A-Za-z0-9]/.test(value))
+                strength++;
+
+
+            if (value.length === 0) {
+
+                strengthBar.style.width = "0%";
+
+                strengthText.textContent =
+                    "Password strength";
+
+            }
+
+            else if (strength <= 1) {
+
+                strengthBar.style.width = "25%";
+
+                strengthText.textContent =
+                    "Weak password";
+
+            }
+
+            else if (strength === 2) {
+
+                strengthBar.style.width = "50%";
+
+                strengthText.textContent =
+                    "Medium password";
+
+            }
+
+            else if (strength === 3) {
+
+                strengthBar.style.width = "75%";
+
+                strengthText.textContent =
+                    "Strong password";
+
+            }
+
+            else {
+
+                strengthBar.style.width = "100%";
+
+                strengthText.textContent =
+                    "Very strong password";
+
+            }
+
+        });
+
+
+        /* =========================
+           FORM SUBMISSION
+        ========================= */
+
+        const form =
+            document.getElementById("signupForm");
+
+        const message =
+            document.getElementById("message");
+
+        form.addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            const name =
+                document.getElementById("name").value.trim();
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            if (name === "" || email === "") {
+
+                message.textContent =
+                    "Please fill in all fields.";
+
+                return;
+
+            }
+
+            message.textContent =
+                "Account created successfully! 🎉";
+
+            form.reset();
+
+            strengthBar.style.width = "0%";
+
+            strengthText.textContent =
+                "Password strength";
+
+        });
+
+    </script>
+
+</body>
+</html>
